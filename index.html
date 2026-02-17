@@ -136,20 +136,6 @@ a:active {
     transform: scale(0.97);
 }
 
-
-/* ===== SCROLL FIX ===== */
-
-.app {
-    display: flex;
-    flex-direction: column;
-}
-
-.content {
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
 </style>
 
 <script>
@@ -175,6 +161,29 @@ alert("Check-in realizado com sucesso para " + name + "!");
 }
 
 window.onload = function(){ navigate('login'); }
+
+function listarPresenca() {
+    const criancas = [
+        "Ana Clara",
+        "Miguel",
+        "Sofia",
+        "Davi",
+        "Helena",
+        "Arthur",
+        "Laura",
+        "Samuel",
+        "Valentina",
+        "Theo"
+    ];
+    
+    let lista = "Crianças em sala:\n\n";
+    criancas.forEach((c, i) => {
+        lista += (i+1) + ". " + c + "\n";
+    });
+
+    alert(lista);
+}
+
 </script>
 </head>
 
@@ -298,7 +307,10 @@ Playlist <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_i
 
 <!-- CHECKIN -->
 <div id="checkin" class="screen hidden">
-<div class="header"><h3>Checkin</h3></div>
+<div class="header"><h3>Checkin</h3>
+    <button onclick="listarPresenca()" style="margin-top:10px;background:#1976D2;">
+    Listar Presença
+    </button></div>
 <div class="content">
 <select id="childSelect">
 <option>Lucas</option><option>Maria</option><option>João</option><option>Ana</option><option>Pedro</option><option>Sofia</option><option>Gabriel</option><option>Isabela</option><option>Rafael</option><option>Helena</option>
