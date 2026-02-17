@@ -137,42 +137,18 @@ a:active {
 }
 
 
-/* ===== HEADER PREMIUM ===== */
-
-html, body {
-    height: 100%;
-}
-
-body {
-    min-height: 100dvh; /* Safari fix */
-}
+/* ===== SCROLL FIX ===== */
 
 .app {
-    height: 100dvh; /* Safari full height */
+    display: flex;
+    flex-direction: column;
 }
 
-.header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    transition: all .3s ease;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+.content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
-
-.header.collapsed {
-    transform: scaleY(.85);
-    transform-origin: top;
-}
-
-.header img.logo {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-    transition: transform .3s ease;
-    will-change: transform;
-}
-
 
 </style>
 
@@ -199,28 +175,6 @@ alert("Check-in realizado com sucesso para " + name + "!");
 }
 
 window.onload = function(){ navigate('login'); }
-
-// ===== HEADER PARALLAX + COLLAPSE =====
-document.addEventListener("scroll", function () {
-    const header = document.querySelector(".header");
-    const logo = document.querySelector(".header img.logo");
-    const scrollY = window.scrollY;
-
-    if (logo) {
-        logo.style.transform = "translateY(" + (scrollY * 0.2) + "px)";
-    }
-
-    if (header) {
-        if (scrollY > 40) {
-            header.classList.add("collapsed");
-            header.style.boxShadow = "0 12px 30px rgba(0,0,0,0.15)";
-        } else {
-            header.classList.remove("collapsed");
-            header.style.boxShadow = "0 8px 20px rgba(0,0,0,0.08)";
-        }
-    }
-});
-
 </script>
 </head>
 
