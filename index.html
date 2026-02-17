@@ -87,6 +87,55 @@ font-size:14px;
 }
 
 img.full {width:100%;border-radius:12px;}
+
+/* MICROINTERAÇÕES SEGURAS */
+.screen {
+    transition: opacity .35s ease, transform .35s ease;
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.screen:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card {
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+.card:active {
+    transform: scale(0.97);
+}
+
+button {
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+button:hover {
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+a {
+    transition: transform .2s ease;
+}
+
+a:active {
+    transform: scale(0.97);
+}
+
 </style>
 
 <script>
