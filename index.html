@@ -3,27 +3,14 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AD Brás Vila Diva</title>
 
 <style>
-:root {
---primary:#0D47A1;
---primary-light:#1976D2;
---accent:#4CAF50;
---background:#F2F5FA;
---surface:#FFFFFF;
---radius:20px;
---shadow:0 8px 20px rgba(0,0,0,0.08);
---transition:0.3s ease;
-}
-
-* {box-sizing:border-box;}
-
 body {
 margin:0;
-font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-background:linear-gradient(160deg,var(--primary),var(--primary-light));
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#0D47A1,#1976D2);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -34,117 +21,60 @@ height:100vh;
 width:100%;
 max-width:430px;
 height:100vh;
-background:var(--background);
-overflow:hidden;
+background:#F2F5FA;
 position:relative;
+overflow:hidden;
 }
 
-.screen {
-position:absolute;
-top:0;left:0;right:0;bottom:0;
-display:none;
-overflow:auto;
-transition:var(--transition);
-}
-
-.screen.active {
-display:block;
-}
+.screen { display:none; height:100%; overflow:auto; }
+.screen.active { display:block; }
 
 .header {
-background:var(--surface);
-padding:22px;
+background:white;
+padding:20px;
 text-align:center;
-box-shadow:var(--shadow);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-.logo {width:110px;margin-bottom:10px;}
+.logo { width:100px; margin-bottom:10px; }
 
-.content {padding:24px;}
+.content { padding:24px; }
 
 .card {
-background:var(--surface);
-padding:18px;
-border-radius:var(--radius);
+background:white;
+padding:16px;
+border-radius:16px;
 margin-bottom:14px;
-box-shadow:var(--shadow);
+box-shadow:0 6px 16px rgba(0,0,0,0.08);
 cursor:pointer;
 transition:0.2s ease;
 }
 
-.card:active {transform:scale(0.97);}
+.card:hover { transform:translateY(-2px); }
 
-.card-checkin {
-background:var(--accent);
-color:white;
-font-weight:600;
-}
+.card-checkin { background:#4CAF50; color:white; font-weight:bold; }
 
 input, select {
 width:100%;
 padding:12px;
 margin-bottom:12px;
-border-radius:var(--radius);
-border:1px solid #ddd;
+border-radius:12px;
+border:1px solid #ccc;
 }
 
 button {
 width:100%;
 padding:14px;
-border-radius:var(--radius);
+border-radius:14px;
 border:none;
-background:var(--primary);
+background:#0D47A1;
 color:white;
-font-weight:600;
+font-weight:bold;
+cursor:pointer;
 margin-top:10px;
 }
 
-.swipe-container {
-display:flex;
-overflow-x:auto;
-gap:16px;
-}
-
-.swipe-card {
-min-width:85%;
-}
-
 </style>
-
-<script>
-let logged = false;
-
-function showScreen(id){
-document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-}
-
-function login(){
-const user = document.getElementById('user').value;
-const pass = document.getElementById('pass').value;
-
-if(user==="caio" && pass==="caio"){
-logged = true;
-showScreen('home');
-} else {
-alert("Login inválido");
-}
-}
-
-function navigate(id){
-if(!logged) return;
-showScreen(id);
-}
-
-function checkin(){
-if(!logged) return;
-alert("Check-in realizado com sucesso!");
-}
-
-window.onload = function(){ 
-showScreen('login');
-};
-</script>
 </head>
 
 <body>
@@ -159,7 +89,7 @@ showScreen('login');
 <div class="content">
 <input id="user" placeholder="Login">
 <input id="pass" type="password" placeholder="Senha">
-<button onclick="login()">Entrar</button>
+<button id="loginBtn">Entrar</button>
 </div>
 </div>
 
@@ -170,9 +100,9 @@ showScreen('login');
 <h3>Home</h3>
 </div>
 <div class="content">
-<div class="card" onclick="navigate('agenda')">Agenda Pastoral</div>
-<div class="card" onclick="navigate('kids')">Departamento Infantil</div>
-<button onclick="showScreen('login'); logged=false;">Sair</button>
+<div class="card" id="goAgenda">Agenda Pastoral</div>
+<div class="card" id="goKids">Departamento Infantil</div>
+<button id="logoutBtn">Sair</button>
 </div>
 </div>
 
@@ -186,7 +116,7 @@ showScreen('login');
 <div class="card">22/02 - 18h - Culto da Família</div>
 <div class="card">28/02 - 09h - Consagração</div>
 <div class="card">01/03 - 18h - Culto</div>
-<button onclick="navigate('home')">Voltar</button>
+<button id="backHomeFromAgenda">Voltar</button>
 </div>
 </div>
 
@@ -198,16 +128,15 @@ showScreen('login');
 </div>
 <div class="content">
 
-<div class="swipe-container">
-<div class="card swipe-card">Aniversariantes</div>
-<div class="card card-checkin swipe-card" onclick="navigate('checkin')">Checkin</div>
-<div class="card swipe-card">Cronograma do Ano</div>
-<div class="card swipe-card">Equipe</div>
-<div class="card swipe-card">Escala</div>
-<div class="card swipe-card">Ranking</div>
-</div>
+<!-- ORDEM ALFABÉTICA CORRETA -->
+<div class="card" id="goAniversariantes">Aniversariantes</div>
+<div class="card card-checkin" id="goCheckin">Checkin</div>
+<div class="card" id="goCronograma">Cronograma do Ano</div>
+<div class="card" id="goEquipe">Equipe</div>
+<div class="card" id="goEscala">Escala</div>
+<div class="card" id="goRanking">Ranking</div>
 
-<button onclick="navigate('home')">Voltar</button>
+<button id="backHome">Voltar</button>
 
 </div>
 </div>
@@ -220,12 +149,72 @@ showScreen('login');
 </div>
 <div class="content">
 <select><option>Lucas</option><option>Maria</option><option>João</option><option>Ana</option><option>Pedro</option><option>Sofia</option><option>Gabriel</option><option>Isabela</option><option>Rafael</option><option>Helena</option></select>
-<button onclick="checkin()">Confirmar</button>
-<button onclick="navigate('kids')">Voltar</button>
+<button id="confirmCheckin">Confirmar</button>
+<button id="backKidsFromCheckin">Voltar</button>
 </div>
 </div>
 
 </div>
+
+<script>
+
+let logged = false;
+
+function showScreen(id) {
+document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+
+document.getElementById("loginBtn").addEventListener("click", function() {
+const user = document.getElementById("user").value;
+const pass = document.getElementById("pass").value;
+
+if(user === "caio" && pass === "caio") {
+logged = true;
+showScreen("home");
+} else {
+alert("Login inválido");
+}
+});
+
+document.getElementById("logoutBtn").addEventListener("click", function() {
+logged = false;
+showScreen("login");
+});
+
+document.getElementById("goAgenda").addEventListener("click", function() {
+if(logged) showScreen("agenda");
+});
+
+document.getElementById("goKids").addEventListener("click", function() {
+if(logged) showScreen("kids");
+});
+
+document.getElementById("backHomeFromAgenda").addEventListener("click", function() {
+showScreen("home");
+});
+
+document.getElementById("backHome").addEventListener("click", function() {
+showScreen("home");
+});
+
+document.getElementById("goCheckin").addEventListener("click", function() {
+showScreen("checkin");
+});
+
+document.getElementById("backKidsFromCheckin").addEventListener("click", function() {
+showScreen("kids");
+});
+
+document.getElementById("confirmCheckin").addEventListener("click", function() {
+alert("Check-in realizado com sucesso!");
+});
+
+});
+
+</script>
 
 </body>
 </html>
