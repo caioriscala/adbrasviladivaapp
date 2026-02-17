@@ -14,9 +14,8 @@
 --background:#F2F5FA;
 --surface:#FFFFFF;
 --radius:20px;
---shadow-soft:0 8px 20px rgba(0,0,0,0.08);
---shadow-press:0 4px 12px rgba(0,0,0,0.12);
---transition:0.35s cubic-bezier(.4,.0,.2,1);
+--shadow:0 8px 20px rgba(0,0,0,0.08);
+--transition:0.3s ease;
 }
 
 * {box-sizing:border-box;}
@@ -43,25 +42,20 @@ position:relative;
 .screen {
 position:absolute;
 top:0;left:0;right:0;bottom:0;
-opacity:0;
-transform:translateX(30px);
-transition:var(--transition);
+display:none;
 overflow:auto;
+transition:var(--transition);
 }
 
 .screen.active {
-opacity:1;
-transform:translateX(0);
+display:block;
 }
 
 .header {
 background:var(--surface);
 padding:22px;
 text-align:center;
-box-shadow:var(--shadow-soft);
-position:sticky;
-top:0;
-z-index:5;
+box-shadow:var(--shadow);
 }
 
 .logo {width:110px;margin-bottom:10px;}
@@ -73,16 +67,12 @@ background:var(--surface);
 padding:18px;
 border-radius:var(--radius);
 margin-bottom:14px;
-box-shadow:var(--shadow-soft);
+box-shadow:var(--shadow);
 cursor:pointer;
-transition:all 0.2s ease;
-user-select:none;
+transition:0.2s ease;
 }
 
-.card:active {
-transform:scale(0.97);
-box-shadow:var(--shadow-press);
-}
+.card:active {transform:scale(0.97);}
 
 .card-checkin {
 background:var(--accent);
@@ -96,13 +86,6 @@ padding:12px;
 margin-bottom:12px;
 border-radius:var(--radius);
 border:1px solid #ddd;
-transition:0.2s;
-}
-
-input:focus, select:focus {
-outline:none;
-border-color:var(--primary);
-box-shadow:0 0 0 2px rgba(13,71,161,0.2);
 }
 
 button {
@@ -114,51 +97,53 @@ background:var(--primary);
 color:white;
 font-weight:600;
 margin-top:10px;
-transition:0.2s;
 }
 
-button:active {transform:scale(0.98);}
-
-/* Swipe container */
 .swipe-container {
 display:flex;
 overflow-x:auto;
-scroll-snap-type:x mandatory;
 gap:16px;
-padding-bottom:10px;
 }
 
 .swipe-card {
 min-width:85%;
-scroll-snap-align:start;
 }
 
 </style>
 
 <script>
-let logged=false;
+let logged = false;
 
-function navigate(id){
-if(!logged && id!=="login") return;
+function showScreen(id){
 document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
 document.getElementById(id).classList.add('active');
 }
 
 function login(){
-if(document.getElementById('user').value==="caio" &&
-   document.getElementById('pass').value==="caio"){
-   logged=true;
-   navigate('home');
+const user = document.getElementById('user').value;
+const pass = document.getElementById('pass').value;
+
+if(user==="caio" && pass==="caio"){
+logged = true;
+showScreen('home');
 } else {
-   alert("Login inválido");
+alert("Login inválido");
 }
+}
+
+function navigate(id){
+if(!logged) return;
+showScreen(id);
 }
 
 function checkin(){
+if(!logged) return;
 alert("Check-in realizado com sucesso!");
 }
 
-window.onload=function(){navigate('login');}
+window.onload = function(){ 
+showScreen('login');
+};
 </script>
 </head>
 
@@ -187,6 +172,7 @@ window.onload=function(){navigate('login');}
 <div class="content">
 <div class="card" onclick="navigate('agenda')">Agenda Pastoral</div>
 <div class="card" onclick="navigate('kids')">Departamento Infantil</div>
+<button onclick="showScreen('login'); logged=false;">Sair</button>
 </div>
 </div>
 
@@ -213,19 +199,12 @@ window.onload=function(){navigate('login');}
 <div class="content">
 
 <div class="swipe-container">
-
 <div class="card swipe-card">Aniversariantes</div>
-
 <div class="card card-checkin swipe-card" onclick="navigate('checkin')">Checkin</div>
-
 <div class="card swipe-card">Cronograma do Ano</div>
-
 <div class="card swipe-card">Equipe</div>
-
 <div class="card swipe-card">Escala</div>
-
 <div class="card swipe-card">Ranking</div>
-
 </div>
 
 <button onclick="navigate('home')">Voltar</button>
@@ -247,5 +226,6 @@ window.onload=function(){navigate('login');}
 </div>
 
 </div>
+
 </body>
 </html>
